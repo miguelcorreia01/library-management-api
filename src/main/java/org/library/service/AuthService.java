@@ -1,4 +1,4 @@
-package org.library.dto.service;
+package org.library.service;
 
 import org.library.dto.auth.JwtResponse;
 import org.library.dto.auth.RegisterRequest;
