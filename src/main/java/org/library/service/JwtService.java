@@ -1,4 +1,4 @@
-package org.library.dto.service;
+package org.library.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
