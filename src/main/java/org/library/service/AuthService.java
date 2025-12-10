@@ -1,6 +1,7 @@
 package org.library.service;
 
 import org.library.dto.auth.JwtResponse;
+import org.library.dto.auth.LoginRequest;
 import org.library.dto.auth.RegisterRequest;
 import org.library.entities.Role;
 import org.library.entities.User;
@@ -30,7 +31,7 @@ public class AuthService {
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.User);
+        user.setRole(Role.USER);
         user.setActive(true);
 
         userRepository.save(user);
@@ -49,11 +50,11 @@ public class AuthService {
     }
 
     //Login
-    public JwtResponse login(String email, String password){
-        User user = userRepository.findByEmail(email)
+    public JwtResponse login(LoginRequest request){
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
-        if(!passwordEncoder.matches(password, user.getPassword())){
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
             throw new RuntimeException("Invalid email or password");
         }
 
