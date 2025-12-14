@@ -5,6 +5,8 @@ import org.library.dto.auth.LoginRequest;
 import org.library.dto.auth.RegisterRequest;
 import org.library.entities.Role;
 import org.library.entities.User;
+import org.library.exception.BadRequestException;
+import org.library.exception.ConflictException;
 import org.library.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class AuthService {
     //Register
     public JwtResponse register(RegisterRequest request){
         if(userRepository.findByEmail(request.getEmail()).isPresent()){
-            throw new RuntimeException("Email is already in use");
+            throw new ConflictException("Email is already in use");
         }
 
         User user = new User();
@@ -52,11 +54,16 @@ public class AuthService {
     //Login
     public JwtResponse login(LoginRequest request){
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+                .orElseThrow(() -> new BadRequestException("Invalid email or password"));
 
         if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
-            throw new RuntimeException("Invalid email or password");
+            throw new BadRequestException("Invalid email or password");
         }
+
+        if(!user.isActive()){
+            throw new BadRequestException("Account is deactivated");
+        }
+
 
         String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
 
