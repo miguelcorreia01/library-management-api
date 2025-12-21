@@ -142,6 +142,16 @@ public class BorrowService {
                 .toList();
     }
 
+    public List<BorrowResponse> getBorrowsByUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        List<BorrowRecord> borrowRecords = borrowRecordRepository.findByUser(user);
+        return borrowRecords.stream()
+                .map(this::toBorrowResponse)
+                .toList();
+    }
+
 
     private User getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
