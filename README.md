@@ -666,57 +666,6 @@ Error response format:
 }
 ```
 
-### Common Error Scenarios
-
-**Validation Error (400):**
-```json
-{
-  "message": "Validation failed",
-  "timestamp": "2026-01-07T12:00:00",
-  "status": 400,
-  "errors": [
-    "Name is required",
-    "Email must be valid"
-  ]
-}
-```
-
-**Unauthorized (401):**
-```json
-{
-  "message": "Unauthorized: Full authentication is required",
-  "timestamp": "2026-01-07T12:00:00",
-  "status": 401
-}
-```
-
-**Forbidden (403):**
-```json
-{
-  "message": "Access denied",
-  "timestamp": "2026-01-07T12:00:00",
-  "status": 403
-}
-```
-
-**Not Found (404):**
-```json
-{
-  "message": "Book not found",
-  "timestamp": "2026-01-07T12:00:00",
-  "status": 404
-}
-```
-
-**Conflict (409):**
-```json
-{
-  "message": "Book with the same title already exists",
-  "timestamp": "2026-01-07T12:00:00",
-  "status": 409
-}
-```
-
 ## Business Rules
 
 ### Borrowing Rules
